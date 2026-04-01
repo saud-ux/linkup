@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>LinkUp — Meet Strangers, Make Connections</title>
+  <title>LinkUp — Meet Strangers</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -13,19 +13,17 @@
   <!-- TERMS MODAL -->
   <div id="terms-modal" class="modal-overlay active">
     <div class="modal-box">
-      <div class="modal-badge">⚠ Before You Start</div>
-      <h2>Terms of Use</h2>
-      <p>By using LinkUp, you agree to the following:</p>
+      <div class="modal-eyebrow">Before you continue</div>
+      <h2>Community Rules</h2>
       <ul>
-        <li>You must be <strong>18 years or older</strong>.</li>
+        <li>You must be <strong>18 or older</strong> to use LinkUp.</li>
         <li>No nudity, harassment, or illegal content.</li>
-        <li>Do not share personal information with strangers.</li>
-        <li>Violations may result in a permanent ban.</li>
-        <li>Chats may be monitored for safety purposes.</li>
+        <li>Never share personal information with strangers.</li>
+        <li>Violations result in a permanent ban.</li>
       </ul>
       <div class="modal-actions">
-        <button class="btn-secondary" onclick="window.location.href='https://google.com'">Decline</button>
-        <button class="btn-primary" id="accept-terms-btn">I Agree — Let's Go</button>
+        <button class="btn-ghost" onclick="window.location.href='https://google.com'">Decline</button>
+        <button class="btn-primary" id="accept-terms-btn">I agree, let's go →</button>
       </div>
     </div>
   </div>
@@ -33,94 +31,91 @@
   <!-- LANDING PAGE -->
   <section id="landing-page" class="hidden">
     <nav class="navbar">
-      <div class="logo">Link<span>Up</span></div>
-      <div class="nav-right">
-        <div class="online-counter">
-          <span class="pulse-dot"></span>
-          <span id="online-count-nav">0</span> online
-        </div>
+      <div class="logo">linkup</div>
+      <div class="online-pill">
+        <span class="pulse-dot"></span>
+        <span id="online-count-nav">—</span> online
       </div>
     </nav>
 
     <div class="hero">
-      <div class="hero-bg-grid"></div>
-      <div class="noise-overlay"></div>
+      <div class="hero-left">
+        <p class="hero-eyebrow">Anonymous · Free · Instant</p>
+        <h1 class="hero-title">Meet someone<br><em>unexpected.</em></h1>
+        <p class="hero-sub">Real video conversations with real strangers. No sign-up, no algorithm — just two people, face to face.</p>
 
-      <div class="hero-content">
-        <div class="hero-badge">🌍 100% Anonymous · No Sign-Up</div>
-        <h1 class="hero-title">
-          Meet Someone<br />
-          <span class="gradient-text">Unexpected.</span>
-        </h1>
-        <p class="hero-desc">
-          Real conversations. Real people. Instant video chat with strangers from around the world — no accounts, no filters, just connection.
-        </p>
-
-        <div class="interest-input-group">
-          <label>Match by interests (optional)</label>
-          <div class="tags-row" id="tags-row">
-            <input type="text" id="interest-input" placeholder="e.g. music, gaming, travel…" maxlength="30" />
+        <div class="start-panel">
+          <div class="panel-row">
+            <div class="field-group">
+              <label>Interests <span class="optional">optional</span></label>
+              <div class="tags-row" id="tags-row">
+                <input type="text" id="interest-input" placeholder="music, gaming, travel…" maxlength="30" />
+              </div>
+              <div class="tag-suggestions">
+                <span class="tag-chip" data-tag="music">music</span>
+                <span class="tag-chip" data-tag="gaming">gaming</span>
+                <span class="tag-chip" data-tag="travel">travel</span>
+                <span class="tag-chip" data-tag="movies">movies</span>
+                <span class="tag-chip" data-tag="art">art</span>
+                <span class="tag-chip" data-tag="tech">tech</span>
+                <span class="tag-chip" data-tag="sports">sports</span>
+                <span class="tag-chip" data-tag="food">food</span>
+              </div>
+            </div>
           </div>
-          <div class="tag-suggestions">
-            <span class="tag-chip" data-tag="music">🎵 music</span>
-            <span class="tag-chip" data-tag="gaming">🎮 gaming</span>
-            <span class="tag-chip" data-tag="travel">✈️ travel</span>
-            <span class="tag-chip" data-tag="movies">🎬 movies</span>
-            <span class="tag-chip" data-tag="art">🎨 art</span>
-            <span class="tag-chip" data-tag="tech">💻 tech</span>
-            <span class="tag-chip" data-tag="sports">⚽ sports</span>
-            <span class="tag-chip" data-tag="food">🍕 food</span>
+
+          <div class="panel-row two-col">
+            <div class="field-group">
+              <label>Language</label>
+              <select id="lang-filter" class="filter-select">
+                <option value="">Any language</option>
+                <option value="en">English</option>
+                <option value="es">Spanish</option>
+                <option value="fr">French</option>
+                <option value="de">German</option>
+                <option value="ar">Arabic</option>
+                <option value="ja">Japanese</option>
+                <option value="ko">Korean</option>
+                <option value="pt">Portuguese</option>
+                <option value="ru">Russian</option>
+                <option value="zh">Chinese</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label>Mode</label>
+              <select id="chat-mode" class="filter-select">
+                <option value="video">Video + Text</option>
+                <option value="text">Text only</option>
+              </select>
+            </div>
           </div>
-        </div>
 
-        <div class="filter-row">
-          <select id="lang-filter" class="filter-select">
-            <option value="">🌐 Any Language</option>
-            <option value="en">🇺🇸 English</option>
-            <option value="es">🇪🇸 Spanish</option>
-            <option value="fr">🇫🇷 French</option>
-            <option value="de">🇩🇪 German</option>
-            <option value="ar">🇸🇦 Arabic</option>
-            <option value="ja">🇯🇵 Japanese</option>
-            <option value="ko">🇰🇷 Korean</option>
-            <option value="pt">🇧🇷 Portuguese</option>
-            <option value="ru">🇷🇺 Russian</option>
-            <option value="zh">🇨🇳 Chinese</option>
-          </select>
-          <select id="chat-mode" class="filter-select">
-            <option value="video">📹 Video + Text</option>
-            <option value="text">💬 Text Only</option>
-          </select>
-        </div>
+          <button class="start-btn" id="start-btn">Start chatting</button>
 
-        <button class="start-btn" id="start-btn">
-          <span class="btn-icon">▶</span>
-          Start Chatting
-        </button>
-
-        <div class="stats-row">
-          <div class="stat"><strong id="stat-online">1,243</strong><span>Online Now</span></div>
-          <div class="stat-divider"></div>
-          <div class="stat"><strong>2M+</strong><span>Chats Today</span></div>
-          <div class="stat-divider"></div>
-          <div class="stat"><strong>190+</strong><span>Countries</span></div>
+          <div class="stats-row">
+            <div class="stat"><strong id="stat-online">—</strong><span>online now</span></div>
+            <div class="stat-dot"></div>
+            <div class="stat"><strong>190+</strong><span>countries</span></div>
+            <div class="stat-dot"></div>
+            <div class="stat"><strong>free</strong><span>always</span></div>
+          </div>
         </div>
       </div>
 
-      <div class="hero-visual">
-        <div class="video-preview-stack">
-          <div class="vp-card vp-card-back">
-            <div class="vp-avatar">👨‍💻</div>
-            <div class="vp-label">Berlin, DE</div>
+      <div class="hero-right">
+        <div class="preview-frame">
+          <div class="preview-screen stranger-screen">
+            <div class="preview-face">🧑‍🎤</div>
+            <div class="preview-tag">Tokyo, JP</div>
+            <div class="live-chip">live</div>
           </div>
-          <div class="vp-card vp-card-mid">
-            <div class="vp-avatar">👩‍🎨</div>
-            <div class="vp-label">Tokyo, JP</div>
+          <div class="preview-screen you-screen">
+            <div class="preview-face">🧑‍💻</div>
+            <div class="preview-tag">You</div>
           </div>
-          <div class="vp-card vp-card-front">
-            <div class="vp-avatar">👨‍🎸</div>
-            <div class="vp-label">New York, US</div>
-            <div class="vp-live">LIVE</div>
+          <div class="preview-chat">
+            <div class="preview-msg them">Hey! Where are you from?</div>
+            <div class="preview-msg me">Riyadh! You?</div>
           </div>
         </div>
       </div>
@@ -130,25 +125,25 @@
   <!-- CHAT PAGE -->
   <section id="chat-page" class="hidden">
     <div class="chat-topbar">
-      <div class="logo-small">Link<span>Up</span></div>
+      <div class="logo-small">linkup</div>
       <div class="chat-status" id="chat-status">
         <span class="status-dot"></span>
         <span id="status-text">Connecting…</span>
       </div>
       <div class="topbar-right">
-        <div class="online-pill">
-          <span class="pulse-dot small"></span>
-          <span id="online-count-chat">0</span>
+        <div class="online-pill small">
+          <span class="pulse-dot"></span>
+          <span id="online-count-chat">—</span>
         </div>
         <button class="icon-btn chat-toggle-btn" id="chat-toggle-btn" title="Toggle chat">💬</button>
-        <button class="icon-btn report-btn" id="report-btn" title="Report user">⚑</button>
-        <button class="icon-btn end-btn" id="end-session-btn" title="End session">✕</button>
+        <button class="icon-btn report-btn" id="report-btn" title="Report">⚑</button>
+        <button class="icon-btn end-btn" id="end-session-btn" title="End">✕</button>
       </div>
     </div>
 
     <div class="chat-layout" id="chat-layout">
-      <!-- VIDEO AREA -->
       <div class="video-area" id="video-area">
+
         <div class="video-wrapper stranger-wrapper">
           <video id="remote-video" autoplay playsinline></video>
           <div class="video-overlay" id="stranger-overlay">
@@ -156,13 +151,13 @@
               <div class="radar-ring r1"></div>
               <div class="radar-ring r2"></div>
               <div class="radar-ring r3"></div>
-              <div class="radar-icon">🔍</div>
+              <div class="radar-icon">◎</div>
             </div>
-            <p id="overlay-text">Finding someone…</p>
+            <p id="overlay-text">Waiting for someone real…</p>
           </div>
           <div class="video-label stranger-label">
             <span id="stranger-country">Stranger</span>
-            <span class="live-badge" id="live-badge" style="display:none">LIVE</span>
+            <span class="live-badge" id="live-badge" style="display:none">live</span>
           </div>
         </div>
 
@@ -170,33 +165,28 @@
           <video id="local-video" autoplay muted playsinline></video>
           <div class="video-label local-label">You</div>
           <div class="local-controls">
-            <button class="media-btn" id="toggle-cam" title="Toggle camera">📷</button>
-            <button class="media-btn" id="toggle-mic" title="Toggle mic">🎙️</button>
+            <button class="media-btn" id="toggle-cam">📷</button>
+            <button class="media-btn" id="toggle-mic">🎙️</button>
           </div>
         </div>
 
         <div class="video-actions">
-          <button class="action-btn skip-btn" id="skip-btn">
-            ⏭ Skip
-          </button>
-          <button class="action-btn stop-btn" id="stop-btn">
-            ⏹ Stop
-          </button>
+          <button class="action-btn skip-btn" id="skip-btn">Skip</button>
+          <button class="action-btn stop-btn" id="stop-btn">Stop</button>
         </div>
       </div>
 
-      <!-- TEXT CHAT -->
       <div class="text-chat" id="text-chat">
         <div class="chat-header">
-          <span>💬 Chat</span>
+          <span>Chat</span>
           <div class="tags-display" id="tags-display"></div>
         </div>
         <div class="messages-area" id="messages-area">
-          <div class="system-msg">👋 You're connected. Say hello!</div>
+          <div class="system-msg">Say hello 👋</div>
         </div>
         <div class="chat-input-row">
-          <input type="text" id="chat-input" placeholder="Type a message…" maxlength="500" />
-          <button class="send-btn" id="send-btn">➤</button>
+          <input type="text" id="chat-input" placeholder="Message…" maxlength="500" />
+          <button class="send-btn" id="send-btn">↑</button>
         </div>
       </div>
     </div>
@@ -204,9 +194,9 @@
 
   <!-- REPORT MODAL -->
   <div id="report-modal" class="modal-overlay">
-    <div class="modal-box small">
+    <div class="modal-box">
+      <div class="modal-eyebrow">Safety</div>
       <h2>Report User</h2>
-      <p>Why are you reporting this person?</p>
       <div class="report-options">
         <label><input type="radio" name="report" value="nudity" /> Nudity or sexual content</label>
         <label><input type="radio" name="report" value="harassment" /> Harassment or bullying</label>
@@ -215,13 +205,12 @@
         <label><input type="radio" name="report" value="other" /> Other</label>
       </div>
       <div class="modal-actions">
-        <button class="btn-secondary" id="cancel-report">Cancel</button>
-        <button class="btn-primary" id="submit-report">Submit Report</button>
+        <button class="btn-ghost" id="cancel-report">Cancel</button>
+        <button class="btn-primary" id="submit-report">Submit</button>
       </div>
     </div>
   </div>
 
-  <!-- TOAST -->
   <div id="toast" class="toast"></div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.5/socket.io.min.js"></script>
