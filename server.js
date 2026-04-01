@@ -19,7 +19,12 @@ const io = new Server(server, {
     origin: '*',
     methods: ['GET', 'POST'],
   },
+  transports: ['websocket', 'polling'],
+  allowEIO3: true,
 });
+
+// Trust Railway's proxy
+app.set('trust proxy', 1);
 
 const PORT = process.env.PORT || 3000;
 

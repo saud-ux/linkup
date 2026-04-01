@@ -117,11 +117,8 @@ function fmtCount(n) {
   return n >= 1000 ? (n / 1000).toFixed(1) + 'k' : n.toString();
 }
 
-function simulateOnlineCount() {
-  // Realistic fluctuation
-  const delta = Math.floor(Math.random() * 40) - 15;
-  state.onlineCount = Math.max(800, state.onlineCount + delta);
-  const fmt = state.onlineCount.toLocaleString();
+function updateOnlineCount(n) {
+  const fmt = n.toLocaleString();
   dom.onlineCountNav.textContent = fmt;
   dom.onlineCountChat.textContent = fmt;
   dom.statOnline.textContent = fmt;
@@ -238,17 +235,18 @@ function renderTagsDisplay() {
 // SOCKET.IO SIGNALING
 // ============================================
 function initSocket() {
-  // Try to connect to local signaling server
-  // Falls back to demo mode if no server
   try {
     state.socket = io(window.SIGNALING_SERVER || window.location.origin, {
-      timeout: 3000,
+      timeout: 10000,
       transports: ['websocket', 'polling'],
+      upgrade: true,
+      reconnection: true,
+      reconnectionAttempts: 5,
+      reconnectionDelay: 1000,
     });
     setupSocketEvents();
   } catch (e) {
-    console.warn('No signaling server — using demo mode');
-    startDemoMode();
+    showServerError();
   }
 }
 
@@ -262,16 +260,13 @@ function setupSocketEvents() {
   });
 
   socket.on('connect_error', () => {
-    console.warn('Signaling server not available — demo mode');
-    startDemoMode();
+    console.warn('Signaling server not available.');
+    showServerError();
   });
 
   socket.on('online-count', count => {
     state.onlineCount = count;
-    const fmt = count.toLocaleString();
-    dom.onlineCountNav.textContent = fmt;
-    dom.onlineCountChat.textContent = fmt;
-    dom.statOnline.textContent = fmt;
+    updateOnlineCount(count);
   });
 
   socket.on('matched', async ({ roomId, initiator, partner }) => {
@@ -392,7 +387,7 @@ function handlePartnerLeft() {
     if (state.socket && state.socket.connected) {
       findPartner();
     } else {
-      startDemoMode();
+      showServerError();
     }
   }, 1500);
 }
@@ -409,50 +404,19 @@ function setOverlay(show, text = '') {
 }
 
 // ============================================
-// DEMO MODE (no server)
+// SERVER ERROR — no fake fallback, ever
 // ============================================
-function startDemoMode() {
-  console.log('Demo mode: simulating partner search');
-  setStatus('Searching…', 'searching');
-  setOverlay(true, 'Finding someone…');
-
-  const countries = ['🇺🇸 New York, US', '🇬🇧 London, UK', '🇩🇪 Berlin, DE', '🇯🇵 Tokyo, JP', '🇧🇷 São Paulo, BR', '🇫🇷 Paris, FR', '🇦🇺 Sydney, AU', '🇸🇦 Riyadh, SA', '🇰🇷 Seoul, KR', '🇨🇦 Toronto, CA'];
-  const delay = 1500 + Math.random() * 2000;
-
-  setTimeout(() => {
-    const country = countries[Math.floor(Math.random() * countries.length)];
-    dom.strangerCountry.textContent = country;
-    setStatus('Connected ✓', 'connected');
-    setOverlay(false);
-    state.isConnected = true;
-    state.isSearching = false;
-    addMessage(`🔗 Connected to someone from ${country}`);
-    simulateDemoChat();
-  }, delay);
-}
-
-function simulateDemoChat() {
-  const demoMessages = [
-    "Hey! How's it going?",
-    "Nice to meet you!",
-    "Where are you from?",
-    "What are you up to today?",
-    "This app is pretty cool 😄",
-    "Do you speak English?",
-    "I'm just chilling at home",
-    "What kind of music do you like?",
-  ];
-
-  let i = 0;
-  const interval = setInterval(() => {
-    if (!state.isConnected || i >= 3) {
-      clearInterval(interval);
-      return;
-    }
-    const msg = demoMessages[Math.floor(Math.random() * demoMessages.length)];
-    addMessage(msg, 'theirs');
-    i++;
-  }, 4000 + Math.random() * 3000);
+function showServerError() {
+  setStatus('Server offline', '');
+  setOverlay(true, '');
+  dom.overlayText.innerHTML = `
+    <span style="font-size:32px">⚠️</span><br>
+    <strong style="color:var(--text-primary);font-size:15px">Cannot connect to server</strong><br>
+    <span style="font-size:12px;color:var(--text-muted);margin-top:6px;display:block">
+      Please refresh the page and try again.
+    </span>
+  `;
+  showToast('⚠ Cannot connect to server', 'error');
 }
 
 // ============================================
@@ -482,7 +446,7 @@ function skipPartner() {
   if (state.socket && state.socket.connected) {
     setTimeout(findPartner, 500);
   } else {
-    setTimeout(startDemoMode, 500);
+    showServerError();
   }
 }
 
@@ -587,10 +551,11 @@ dom.submitReport.addEventListener('click', () => {
 });
 
 // ============================================
-// ONLINE COUNT SIMULATION
+// ONLINE COUNT — real from server only
 // ============================================
-simulateOnlineCount();
-setInterval(simulateOnlineCount, 5000);
+dom.onlineCountNav.textContent = '—';
+dom.onlineCountChat.textContent = '—';
+dom.statOnline.textContent = '—';
 
 // ============================================
 // CHAT TOGGLE
@@ -606,6 +571,4 @@ dom.chatToggleBtn.addEventListener('click', () => {
 // ============================================
 // INIT
 // ============================================
-console.log('%cLinkUp 🔗 Ready', 'color: #00e5ff; font-size: 16px; font-weight: bold;');
-console.log('To use with a real server, set window.SIGNALING_SERVER before loading this script.');
-console.log('See server.js for the Node.js + Socket.io signaling server.');
+console.log('%cLinkUp 🔗 Ready — Real users only', 'color: #00e5ff; font-size: 16px; font-weight: bold;');
